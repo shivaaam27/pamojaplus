@@ -4,6 +4,7 @@ import { Card, Badge } from "@/components/ui/Card";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { EmptyState } from "@/components/admin/EmptyState";
 import { ClipboardList } from "lucide-react";
+import { ActionRow } from "./ActionRow";
 
 export const dynamic = "force-dynamic";
 
@@ -72,6 +73,7 @@ export default async function ApplicationsPage() {
                 <th className="p-3 font-semibold">Location</th>
                 <th className="p-3 font-semibold">Submitted</th>
                 <th className="p-3 font-semibold">Status</th>
+                <th className="p-3 font-semibold text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-line">
@@ -83,6 +85,7 @@ export default async function ApplicationsPage() {
                   <td className="p-3">{a.location}</td>
                   <td className="p-3 text-ink-2">{new Date(a.created_at).toLocaleDateString("en-GB")}</td>
                   <td className="p-3"><Badge tone={STATUS_TONE[a.status]}>{a.status}</Badge></td>
+                  <td className="p-3 text-right"><ActionRow id={a.id} status={a.status} /></td>
                 </tr>
               ))}
             </tbody>

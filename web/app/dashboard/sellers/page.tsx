@@ -4,6 +4,7 @@ import { Card, Badge } from "@/components/ui/Card";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { EmptyState } from "@/components/admin/EmptyState";
 import { Users } from "lucide-react";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
@@ -65,7 +66,12 @@ export default async function SellersPage() {
             <tbody className="divide-y divide-line">
               {sellers.map((s) => (
                 <tr key={s.id} className="hover:bg-bg/60">
-                  <td className="p-3 font-semibold">{s.business_name}<div className="text-xs text-ink-2">{s.location}</div></td>
+                  <td className="p-3 font-semibold">
+                    <Link href={`/dashboard/sellers/${s.id}`} className="hover:text-green-dark">
+                      {s.business_name}
+                    </Link>
+                    <div className="text-xs text-ink-2 font-normal">{s.location}</div>
+                  </td>
                   <td className="p-3">{s.category ?? "—"}</td>
                   <td className="p-3 capitalize">{s.plan}</td>
                   <td className="p-3"><Badge tone={TIER_TONE[s.tier ?? "none"]}>{s.tier ?? "none"}</Badge></td>
