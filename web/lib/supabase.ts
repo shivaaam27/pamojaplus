@@ -215,6 +215,37 @@ export interface DBSellerHealth {
   revenue_90d_tzs: number;
 }
 
+export interface DBPublicListing {
+  listing_id: string;
+  title: string;
+  description: string | null;
+  price_tzs: number | null;
+  photos: string[];
+  deal_type: string;
+  deal_expires_at: string | null;
+  listed_at: string;
+  seller_id: string;
+  business_name: string;
+  category: string | null;
+  location: string | null;
+  tier: VerifyTier;
+  verified: boolean;
+  whatsapp: string | null;
+  response_rate: number | null;
+}
+
+export interface DBPublicSeller {
+  id: string;
+  business_name: string;
+  category: string | null;
+  location: string | null;
+  tier: VerifyTier;
+  verified: boolean;
+  response_rate: number | null;
+  created_at: string;
+  live_listings: number;
+}
+
 export interface DBAmbassadorBoard {
   id: string;
   name: string;

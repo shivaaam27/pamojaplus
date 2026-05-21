@@ -7,11 +7,11 @@ import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
 
 const nav = [
+  { href: "/marketplace", label: "Marketplace" },
   { href: "/about", label: "About" },
   { href: "/journey", label: "Journey" },
   { href: "/pricing", label: "Pricing" },
   { href: "/team", label: "Team" },
-  { href: "/achievements", label: "Achievements" },
   { href: "/dashboard", label: "Ops" }
 ];
 

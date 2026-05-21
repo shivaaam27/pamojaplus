@@ -45,8 +45,8 @@ export default function Home() {
               </motion.p>
               <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
                 className="mt-8 flex flex-wrap gap-3">
-                <Button href="/sellers/apply" size="lg">Join as a Seller <ArrowRight className="w-4 h-4" /></Button>
-                <Button href="/pricing" size="lg" variant="secondary">See Pricing</Button>
+                <Button href="/marketplace" size="lg">Browse Marketplace <ArrowRight className="w-4 h-4" /></Button>
+                <Button href="/sellers/apply" size="lg" variant="secondary">Join as a Seller</Button>
               </motion.div>
               <div className="mt-10 flex flex-wrap gap-2">
                 {categories.map((c) => <Badge key={c} tone="green">{c}</Badge>)}
