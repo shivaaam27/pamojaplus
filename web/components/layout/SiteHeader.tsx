@@ -12,7 +12,7 @@ const nav = [
   { href: "/pricing", label: "Pricing" },
   { href: "/team", label: "Team" },
   { href: "/achievements", label: "Achievements" },
-  { href: "/dashboard", label: "Dashboard" }
+  { href: "/dashboard", label: "Ops" }
 ];
 
 export function SiteHeader() {
