@@ -54,6 +54,7 @@ const groups: Group[] = [
   {
     title: "System",
     items: [
+      { href: "/dashboard/team",        label: "Team & roles",  icon: Users },
       { href: "/dashboard/audit",       label: "Audit log",     icon: ScrollText },
       { href: "/dashboard/experiments", label: "Experiments",   icon: FlaskConical }
     ]

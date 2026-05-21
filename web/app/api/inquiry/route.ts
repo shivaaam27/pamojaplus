@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
   const url = new URL(req.url);
   const listingId = url.searchParams.get("listing");
   const sellerId  = url.searchParams.get("seller");
-  const refCode   = url.searchParams.get("ref") ?? undefined;
+  const refCode   = url.searchParams.get("ref") ?? req.cookies.get("pamoja_ref")?.value ?? undefined;
 
   if (!sellerId) {
     return NextResponse.json({ error: "seller required" }, { status: 400 });
