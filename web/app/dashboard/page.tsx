@@ -3,6 +3,7 @@ import { serverClient, supabaseConfigured, type DBAttentionItem } from "@/lib/su
 import { Card, Badge } from "@/components/ui/Card";
 import { tzs, num } from "@/lib/format";
 import { PageHeader } from "@/components/admin/PageHeader";
+import Link from "next/link";
 import { TrendingUp, Users, ShoppingBag, Coins, Megaphone, AlertCircle, MessageCircle } from "lucide-react";
 import { DashboardCharts } from "./_charts";
 
@@ -80,17 +81,26 @@ const ATTENTION_TONE: Record<DBAttentionItem["kind"], "green" | "yellow" | "ink"
   unresponsive: "yellow"
 };
 
+const ATTENTION_HREF: Record<DBAttentionItem["kind"], string> = {
+  kyc: "/dashboard/kyc",
+  listing_mod: "/dashboard/listings",
+  flag: "/dashboard/compliance",
+  dispute: "/dashboard/disputes",
+  compliance: "/dashboard/compliance",
+  unresponsive: "/dashboard/inquiries?f=stale"
+};
+
 export default async function DashboardPage() {
   const { counts, attention, trend, error } = await loadCounts();
   const c = counts ?? { sellers: 0, listings_live: 0, revenue_month_tzs: 0, ambassadors_active: 0, applications_new: 0, inquiries_30d: 0 };
 
   const kpis = [
-    { label: "Total Sellers",       value: c.sellers,             icon: Users,         tone: "green",  isCurrency: false },
-    { label: "Active Listings",     value: c.listings_live,       icon: ShoppingBag,   tone: "green",  isCurrency: false },
-    { label: "Revenue (Month)",     value: c.revenue_month_tzs,   icon: Coins,         tone: "yellow", isCurrency: true  },
-    { label: "Active Ambassadors",  value: c.ambassadors_active,  icon: Megaphone,     tone: "green",  isCurrency: false },
-    { label: "New Applications",    value: c.applications_new,    icon: TrendingUp,    tone: "yellow", isCurrency: false },
-    { label: "Inquiries (30d)",     value: c.inquiries_30d,       icon: MessageCircle, tone: "green",  isCurrency: false }
+    { label: "Total Sellers",       value: c.sellers,             icon: Users,         tone: "green",  isCurrency: false, href: "/dashboard/sellers" },
+    { label: "Active Listings",     value: c.listings_live,       icon: ShoppingBag,   tone: "green",  isCurrency: false, href: "/dashboard/listings" },
+    { label: "Revenue (Month)",     value: c.revenue_month_tzs,   icon: Coins,         tone: "yellow", isCurrency: true,  href: "/dashboard/revenue" },
+    { label: "Active Ambassadors",  value: c.ambassadors_active,  icon: Megaphone,     tone: "green",  isCurrency: false, href: "/dashboard/ambassadors" },
+    { label: "New Applications",    value: c.applications_new,    icon: TrendingUp,    tone: "yellow", isCurrency: false, href: "/dashboard/applications" },
+    { label: "Inquiries (30d)",     value: c.inquiries_30d,       icon: MessageCircle, tone: "green",  isCurrency: false, href: "/dashboard/inquiries" }
   ] as const;
 
   return (
@@ -110,17 +120,20 @@ export default async function DashboardPage() {
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
         {kpis.map((k) => (
-          <Card key={k.label}>
-            <div className="flex items-center justify-between">
-              <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${k.tone === "yellow" ? "bg-yellow-soft text-ink" : "bg-green-soft text-green-dark"}`}>
-                <k.icon className="w-5 h-5" />
+          <Link key={k.label} href={k.href} className="block group">
+            <Card className="transition group-hover:border-green group-hover:shadow-lift">
+              <div className="flex items-center justify-between">
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${k.tone === "yellow" ? "bg-yellow-soft text-ink" : "bg-green-soft text-green-dark"}`}>
+                  <k.icon className="w-5 h-5" />
+                </div>
+                <span className="text-xs font-bold text-ink-2 group-hover:text-green-dark transition">View →</span>
               </div>
-            </div>
-            <div className="mt-4 text-sm text-ink-2">{k.label}</div>
-            <div className="font-display font-extrabold text-3xl mt-1">
-              {k.isCurrency ? tzs(k.value) : num(k.value)}
-            </div>
-          </Card>
+              <div className="mt-4 text-sm text-ink-2">{k.label}</div>
+              <div className="font-display font-extrabold text-3xl mt-1">
+                {k.isCurrency ? tzs(k.value) : num(k.value)}
+              </div>
+            </Card>
+          </Link>
         ))}
       </div>
 
@@ -135,18 +148,23 @@ export default async function DashboardPage() {
           <div className="text-sm text-ink-2 py-6 text-center">Inbox zero — nothing pending across KYC, moderation, disputes, compliance, or stale inquiries. 🎉</div>
         ) : (
           <ul className="divide-y divide-line">
-            {attention.map((a) => (
-              <li key={`${a.kind}-${a.ref}`} className="py-3 flex items-center justify-between gap-3">
-                <div className="flex items-center gap-3 min-w-0">
-                  <AlertCircle className="w-5 h-5 text-ink-2 shrink-0" />
-                  <span className="font-medium truncate">{a.label}</span>
-                </div>
-                <div className="flex items-center gap-2 shrink-0">
-                  <Badge tone={ATTENTION_TONE[a.kind]}>{ATTENTION_LABEL[a.kind]}</Badge>
-                  <span className="text-xs text-ink-2 hidden sm:inline">{new Date(a.at).toLocaleDateString("en-GB")}</span>
-                </div>
-              </li>
-            ))}
+            {attention.map((a) => {
+              const href = ATTENTION_HREF[a.kind];
+              return (
+                <li key={`${a.kind}-${a.ref}`}>
+                  <Link href={href} className="py-3 flex items-center justify-between gap-3 hover:bg-bg/60 -mx-2 px-2 rounded-lg transition">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <AlertCircle className="w-5 h-5 text-ink-2 shrink-0" />
+                      <span className="font-medium truncate">{a.label}</span>
+                    </div>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <Badge tone={ATTENTION_TONE[a.kind]}>{ATTENTION_LABEL[a.kind]}</Badge>
+                      <span className="text-xs text-ink-2 hidden sm:inline">{new Date(a.at).toLocaleDateString("en-GB")}</span>
+                    </div>
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         )}
       </Card>

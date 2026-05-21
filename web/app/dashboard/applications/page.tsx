@@ -4,16 +4,9 @@ import { Card, Badge } from "@/components/ui/Card";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { EmptyState } from "@/components/admin/EmptyState";
 import { ClipboardList } from "lucide-react";
-import { ActionRow } from "./ActionRow";
+import { ApplicationRow } from "./ApplicationRow";
 
 export const dynamic = "force-dynamic";
-
-const STATUS_TONE: Record<DBSellerApplication["status"], "green" | "yellow" | "ink"> = {
-  new: "yellow",
-  reviewing: "yellow",
-  approved: "green",
-  rejected: "ink"
-};
 
 export default async function ApplicationsPage() {
   let apps: DBSellerApplication[] = [];
@@ -40,7 +33,7 @@ export default async function ApplicationsPage() {
       <PageHeader
         eyebrow="Operate"
         title="Onboarding queue"
-        description="Every seller pitch that comes through /sellers/apply. Triage daily — Lead → Reviewing → Approved or Rejected."
+        description="Every seller pitch that comes through /sellers/apply. Click a row to see the full pitch — description, socials, contact."
         right={
           <div className="flex gap-2">
             <Badge tone="yellow">{counts.new ?? 0} new</Badge>
@@ -60,13 +53,14 @@ export default async function ApplicationsPage() {
         <EmptyState
           icon={ClipboardList}
           title="No applications yet"
-          hint="When sellers submit the /sellers/apply form, they appear here. Configure NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY to see live data."
+          hint="Pitches submitted from the public /sellers/apply form land here. Share that link with leads."
         />
       ) : (
         <Card className="p-0 overflow-hidden">
           <table className="w-full text-sm">
             <thead className="bg-bg text-ink-2 text-left">
               <tr>
+                <th className="p-3 font-semibold w-8"></th>
                 <th className="p-3 font-semibold">Business</th>
                 <th className="p-3 font-semibold">Owner</th>
                 <th className="p-3 font-semibold">Category</th>
@@ -77,17 +71,7 @@ export default async function ApplicationsPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-line">
-              {apps.map((a) => (
-                <tr key={a.id} className="hover:bg-bg/60">
-                  <td className="p-3 font-semibold">{a.business_name}</td>
-                  <td className="p-3">{a.owner_name}<div className="text-xs text-ink-2">{a.whatsapp}</div></td>
-                  <td className="p-3">{a.category}</td>
-                  <td className="p-3">{a.location}</td>
-                  <td className="p-3 text-ink-2">{new Date(a.created_at).toLocaleDateString("en-GB")}</td>
-                  <td className="p-3"><Badge tone={STATUS_TONE[a.status]}>{a.status}</Badge></td>
-                  <td className="p-3 text-right"><ActionRow id={a.id} status={a.status} /></td>
-                </tr>
-              ))}
+              {apps.map((a) => <ApplicationRow key={a.id} a={a} />)}
             </tbody>
           </table>
         </Card>

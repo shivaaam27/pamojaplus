@@ -64,8 +64,10 @@ export default async function KycPage({ searchParams }: { searchParams: { status
       {rows.length === 0 ? (
         <EmptyState
           icon={ShieldCheck}
-          title="Nothing in this view"
-          hint="When sellers upload ID, business licence, or a selfie, they queue up here. Run 0004_storage_and_kyc_helpers.sql in Supabase to create the storage bucket."
+          title={filter === "pending" ? "No documents waiting for review" : `No ${filter} documents`}
+          hint={filter === "pending"
+            ? "Upload KYC documents from a seller's detail page (Sellers → click a seller → KYC documents → Upload). They'll appear here for approval."
+            : "Switch the filter above to see other states."}
         />
       ) : (
         <Card className="p-0 overflow-hidden">

@@ -85,7 +85,9 @@ export default async function ListingsPage({ searchParams }: { searchParams: { s
         <EmptyState
           icon={ListChecks}
           title="Queue is clear"
-          hint="When sellers create or edit listings, a pending review is auto-queued. Make sure migration 0005_listing_autoflag.sql has been applied."
+          hint={filter === "pending"
+            ? "Nothing pending review. New or edited listings will queue here automatically — add one from a seller's detail page to test."
+            : "Switch the filter above to see other states."}
         />
       ) : (
         <div className="space-y-4">

@@ -73,7 +73,11 @@ export default async function InquiriesPage({ searchParams }: { searchParams: { 
         <EmptyState
           icon={MessageCircle}
           title="No inquiries in this view"
-          hint="Drop <InquireButton sellerId='…' /> on listing cards to start tracking conversion. Inquiries arrive via /api/inquiry before the WhatsApp redirect."
+          hint={
+            f === "open" || f === "stale"
+              ? "Nothing to chase — every inquiry has been responded to. 🎉"
+              : "Inquiries are recorded automatically when shoppers tap WhatsApp on a public listing. They'll appear here as activity grows."
+          }
         />
       ) : (
         <Card className="p-0 overflow-hidden">
