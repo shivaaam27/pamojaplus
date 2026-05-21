@@ -7,6 +7,7 @@ import { PageHeader } from "@/components/admin/PageHeader";
 import { tzs } from "@/lib/format";
 import { ArrowLeft, ShoppingBag, MessageCircle, Star, Coins, ShieldCheck } from "lucide-react";
 import { KycUploader } from "./KycUploader";
+import { ListingForm } from "./ListingForm";
 
 export const dynamic = "force-dynamic";
 
@@ -98,7 +99,9 @@ export default async function SellerDetailPage({ params }: { params: { id: strin
       </div>
 
       <Card className="mb-5">
-        <div className="font-display font-extrabold text-lg mb-3">Listings ({ls.length})</div>
+        <div className="flex items-center justify-between mb-3">
+          <div className="font-display font-extrabold text-lg">Listings ({ls.length})</div>
+        </div>
         {ls.length === 0 ? (
           <div className="text-sm text-ink-2">No listings yet.</div>
         ) : (
@@ -114,6 +117,7 @@ export default async function SellerDetailPage({ params }: { params: { id: strin
             ))}
           </ul>
         )}
+        <ListingForm sellerId={s.id} />
       </Card>
 
       <Card>
