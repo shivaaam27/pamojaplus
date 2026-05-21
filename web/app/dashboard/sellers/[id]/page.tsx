@@ -6,6 +6,7 @@ import { Card, Badge } from "@/components/ui/Card";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { tzs } from "@/lib/format";
 import { ArrowLeft, ShoppingBag, MessageCircle, Star, Coins, ShieldCheck } from "lucide-react";
+import { KycUploader } from "./KycUploader";
 
 export const dynamic = "force-dynamic";
 
@@ -92,6 +93,7 @@ export default async function SellerDetailPage({ params }: { params: { id: strin
               ))}
             </ul>
           )}
+          <KycUploader sellerId={s.id} />
         </Card>
       </div>
 
