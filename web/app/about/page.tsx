@@ -7,6 +7,7 @@ import { Marquee } from "@/components/motion/Marquee";
 import { CursorGlow } from "@/components/motion/CursorGlow";
 import { AmbientOrbs } from "@/components/motion/AmbientOrbs";
 import { MagneticButton } from "@/components/motion/MagneticButton";
+import { Drift, Parallax } from "@/components/motion/Parallax";
 import {
   Store, ShoppingBag, Heart, Leaf, MessageCircle,
   Users, Sparkles, Globe2, Handshake, ShieldCheck
@@ -77,10 +78,10 @@ export default function AboutPage() {
       {/* CORE PURPOSE */}
       <Section>
         <Container>
-          <Reveal>
+          <Drift amount={30}>
             <SectionHeading eyebrow="Core purpose" title="Why Pamoja+ exists."
               sub="Six commitments that guide every decision, from product design to partnerships." />
-          </Reveal>
+          </Drift>
           <StaggerGroup className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {[
               { icon: Store, t: "Support local businesses", b: "Give Tanzanian entrepreneurs and SMEs a real digital home." },
@@ -185,9 +186,9 @@ export default function AboutPage() {
       {/* FOCUS AREAS */}
       <Section className="bg-green-soft">
         <Container>
-          <Reveal>
+          <Drift amount={40}>
             <SectionHeading eyebrow="Focus areas" title="Where we play." />
-          </Reveal>
+          </Drift>
           <StaggerGroup className="grid sm:grid-cols-2 gap-6">
             {[
               { icon: Store, t: "Local Business Empowerment", b: "Helping Tanzanian SMEs compete in a digital environment where storytelling and community matter." },
@@ -259,7 +260,7 @@ export default function AboutPage() {
       {/* BRAND POSITIONING with cursor glow */}
       <Section>
         <Container>
-          <Reveal>
+          <Parallax speed={0.2} scaleOnEnter>
             <CursorGlow className="rounded-3xl bg-ink text-white p-8 sm:p-12">
               <Badge tone="yellow">Brand positioning</Badge>
               <h2 className="mt-4 font-display font-extrabold text-3xl sm:text-4xl leading-tight max-w-3xl">
@@ -280,7 +281,7 @@ export default function AboutPage() {
                 </div>
               </div>
             </CursorGlow>
-          </Reveal>
+          </Parallax>
         </Container>
       </Section>
 

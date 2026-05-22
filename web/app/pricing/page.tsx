@@ -14,6 +14,7 @@ import { CursorGlow } from "@/components/motion/CursorGlow";
 import { AmbientOrbs } from "@/components/motion/AmbientOrbs";
 import { MagneticButton } from "@/components/motion/MagneticButton";
 import { Counter } from "@/components/motion/Counter";
+import { Drift, Parallax } from "@/components/motion/Parallax";
 
 const WEEKS_PER_MONTH = 4.33;
 
@@ -106,10 +107,10 @@ export default function PricingPage() {
       {/* PAYMENT METHODS */}
       <Section>
         <Container>
-          <Reveal>
+          <Drift amount={30}>
             <SectionHeading eyebrow="Payment methods" title="Pay the way Tanzania actually pays."
               sub="Mobile-money first. Cash and pickup still welcome. Cards for diaspora from Month 3." />
-          </Reveal>
+          </Drift>
           <StaggerGroup className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4" stagger={0.04}>
             {paymentMethods.map((m) => {
               const Icon =
@@ -159,8 +160,8 @@ export default function PricingPage() {
                 <Slider label="Featured Brand Slots (weeks)" value={spotlights} setValue={setSpotlights} max={6} unit="weeks" perUnit={70000} />
               </div>
             </Reveal>
-            <Reveal delay={0.15}>
-              <CursorGlow className="bg-ink text-white rounded-3xl p-8 sm:p-10 self-start" color="rgba(43,178,76,0.35)">
+            <Parallax speed={0.25} className="self-start">
+              <CursorGlow className="bg-ink text-white rounded-3xl p-8 sm:p-10" color="rgba(43,178,76,0.35)">
                 <div className="text-sm uppercase tracking-widest text-white/60">Indicative monthly revenue</div>
                 <div className="mt-3 font-display font-extrabold text-5xl text-yellow tabular-nums">
                   <Counter to={monthly} prefix="TSh " />
@@ -172,7 +173,7 @@ export default function PricingPage() {
                   <Line label="Featured slots" value={spotlights * 70000} />
                 </div>
               </CursorGlow>
-            </Reveal>
+            </Parallax>
           </div>
 
           <div className="mt-12">
@@ -200,10 +201,10 @@ export default function PricingPage() {
       {/* SAVINGS CLUB */}
       <Section>
         <Container>
-          <Reveal>
+          <Drift amount={40}>
             <SectionHeading eyebrow="For shoppers" title="Pamoja+ Savings Club"
               sub="Browsing, deal discovery, and contacting businesses stay free. The Savings Club is an optional membership for shoppers who want more." />
-          </Reveal>
+          </Drift>
           <StaggerGroup className="grid lg:grid-cols-3 gap-6 items-start">
             <StaggerItem className="lg:col-span-1">
               <Card className="h-full">
