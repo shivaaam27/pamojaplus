@@ -12,6 +12,7 @@ const nav = [
   { href: "/journey", label: "Journey" },
   { href: "/pricing", label: "Pricing" },
   { href: "/team", label: "Team" },
+  { href: "/seller", label: "Seller portal" },
   { href: "/dashboard", label: "Ops" }
 ];
 

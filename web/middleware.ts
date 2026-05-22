@@ -23,8 +23,10 @@ export async function middleware(req: NextRequest) {
   });
 
   const { data: { user } } = await sb.auth.getUser();
+  const isSellerArea = req.nextUrl.pathname.startsWith("/seller");
   if (!user) {
-    const login = new URL("/login", req.url);
+    const loginPath = isSellerArea ? "/seller/login" : "/login";
+    const login = new URL(loginPath, req.url);
     login.searchParams.set("next", req.nextUrl.pathname);
     return NextResponse.redirect(login);
   }
@@ -32,5 +34,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*"]
+  matcher: ["/dashboard/:path*", "/seller/((?!login|signup).*)"]
 };
