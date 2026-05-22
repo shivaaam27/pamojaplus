@@ -309,46 +309,42 @@ Pre-launch (P), First 3 months (3M), Before checkout (CK), Before scale (SC).
 
 ## 9. Internal System — Architecture
 
-### Goals
-1. **Showcase progress** — milestones, achievements, KPIs
-2. **Live timeline** — interactive 3-month roadmap
-3. **Public website** — brand story, seller signup, deal preview
-4. **Presentation builder** — branded slides without leaving the app
-5. **Internal dashboard** — sellers, listings, revenue (mock first)
+> 📐 **Authoritative source:** [`docs/SYSTEM_ARCHITECTURE.md`](docs/SYSTEM_ARCHITECTURE.md). The summary below is intentionally short — see the architecture doc, route map, migrations, ops runbook, and env reference under `docs/`.
+
+### What's running today (Phase 1 + 2 shipped)
+
+| Surface | URL prefix | Status |
+|---|---|---|
+| Public site | `/`, `/about`, `/journey`, `/pricing`, `/team`, `/achievements`, `/legal/*`, `/sellers/apply` | LIVE |
+| Marketplace | `/marketplace`, `/marketplace/[id]`, `/s/[id]` | LIVE |
+| Inquiry funnel | `/api/inquiry`, `/r/[code]` | LIVE |
+| Seller portal | `/seller/*` (overview, listings, kyc, inquiries, profile) | LIVE |
+| Ops control plane | `/dashboard/*` (16 sub-routes) | LIVE (2 scaffolds: boosts, experiments) |
+| Auth | `/login`, `/seller/login`, `/seller/signup` | LIVE |
 
 ### Tech stack (confirmed)
 
 | Layer | Choice |
 |---|---|
-| Framework | **Next.js 14+ (App Router)** |
-| Styling | **Tailwind CSS** with custom theme tokens |
-| Animation | **Framer Motion** |
-| Icons | **Lucide React** |
+| Framework | Next.js 14 (App Router) |
+| Styling | Tailwind CSS with tokens from `brand/tokens.json` |
+| Animation | Framer Motion |
+| Icons | Lucide React |
 | Fonts | Plus Jakarta Sans + Inter (next/font) |
-| Charts | **Recharts** (for dashboard KPIs) |
-| Slides | **Slidev** (embedded) or in-app reveal-style component |
-| Data (Phase 1) | Local JSON / TypeScript modules — no DB |
-| Data (Phase 2) | **Supabase** (Postgres + Auth + Storage) |
-| Hosting | **Vercel** (free tier) |
-| Forms | React Hook Form + Zod |
+| Charts | Recharts |
+| Data | **Supabase** (Postgres + Auth + Storage + RLS) — 7 migrations applied |
+| Auth | Supabase Auth via `@supabase/ssr`, gated in `web/middleware.ts` |
+| Storage | Private `seller-docs` bucket (signed URLs, 5-min) |
+| Hosting | Vercel |
 
-### Modules
+### Companion docs
 
-1. `/` — **Landing** (hero, vision, what we offer, CTA)
-2. `/about` — Brand story, mission, team
-3. `/journey` — Interactive 90-day timeline (Framer Motion expand cards)
-4. `/achievements` — Milestone wall (animated counters, badges)
-5. `/team` — Org chart, photos, roles
-6. `/pricing` — Plans + interactive simulator
-7. `/presentations` — List of decks, click to present
-8. `/dashboard` — Internal KPI view (sellers, listings, revenue, ambassadors)
-9. `/sellers` — Onboard a seller (CMS form)
-10. `/sign-in` — Internal team auth (Phase 2 with Supabase)
-
-### Public vs. internal
-
-- Public: `/`, `/about`, `/journey`, `/pricing`, `/sellers/apply`
-- Internal (auth-gated Phase 2): `/dashboard`, `/sellers`, `/presentations`, `/achievements/edit`
+- [`docs/SYSTEM_ARCHITECTURE.md`](docs/SYSTEM_ARCHITECTURE.md) — full architecture
+- [`docs/MIGRATIONS.md`](docs/MIGRATIONS.md) — apply order + verification
+- [`docs/ROUTES.md`](docs/ROUTES.md) — complete route map
+- [`docs/ENV.md`](docs/ENV.md) — environment variables
+- [`docs/OPERATIONS_RUNBOOK.md`](docs/OPERATIONS_RUNBOOK.md) — daily ops playbook
+- [`docs/IMPLEMENTATION_PLAN.md`](docs/IMPLEMENTATION_PLAN.md) — week-by-week rollout
 
 ---
 
@@ -356,30 +352,31 @@ Pre-launch (P), First 3 months (3M), Before checkout (CK), Before scale (SC).
 
 ```
 pamojaplus/
-├── PAMOJA_PLUS_GUIDE.md          ← this file (source of truth)
+├── PAMOJA_PLUS_GUIDE.md          ← this file (strategy + brand source of truth)
 ├── docs/
-│   ├── 01-company-profile.md
-│   ├── 02-legal-tanzania.md
-│   ├── 03-timeline-90d.md
-│   ├── 04-team-structure.md
-│   ├── 05-payment-structure.md
-│   └── audit-corrections.md      ← Section 3 expanded
+│   ├── SYSTEM_ARCHITECTURE.md    ← system design (rev 3)
+│   ├── IMPLEMENTATION_PLAN.md    ← week-by-week + backend rollout
+│   ├── MIGRATIONS.md             ← apply order + verify queries
+│   ├── ROUTES.md                 ← every URL
+│   ├── ENV.md                    ← env vars + setup
+│   └── OPERATIONS_RUNBOOK.md     ← daily ops playbook
 ├── brand/
-│   ├── logo.png
-│   ├── tokens.json               ← color + type tokens (auto-imported by web)
-│   └── moodboard.md
-├── web/                          ← Next.js app (Step 6)
+│   └── tokens.json               ← color + type tokens (auto-imported by web)
+├── supabase/
+│   └── migrations/               ← 0001 → 0007, idempotent SQL
+├── web/                          ← Next.js 14 app
 │   ├── app/
+│   │   ├── (public pages, marketplace, /s, /r, /api/inquiry, /login)
+│   │   ├── seller/               ← self-serve portal
+│   │   └── dashboard/            ← ops control plane (16 routes)
 │   ├── components/
-│   ├── content/                  ← MDX for journey, achievements
+│   │   ├── ui/ brand/ layout/ admin/ marketplace/ listing/
+│   ├── content/                  ← static landing/timeline data
 │   ├── lib/
-│   ├── public/
+│   │   └── supabase.ts           ← browserClient + serverClient + types
+│   ├── middleware.ts             ← gates /dashboard/* and /seller/*
 │   ├── tailwind.config.ts
 │   └── package.json
-└── ops/
-    ├── sops/                     ← seller onboarding, complaints, etc.
-    ├── templates/                ← invoice, T&Cs, ambassador agreement
-    └── trackers/                 ← seller-pipeline.csv, kpi-weekly.csv
 ```
 
 ---

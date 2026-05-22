@@ -339,50 +339,60 @@ RLS is enforced on every new table.
 
 **Goal: schema, RLS, and admin shell live; ops team running daily standups on it.**
 
-- [ ] Apply `0001_init.sql` + `0002_control_plane.sql` to the Supabase project
-- [ ] Set `NEXT_PUBLIC_SUPABASE_URL` + `NEXT_PUBLIC_SUPABASE_ANON_KEY` (+ server-side `SUPABASE_SERVICE_ROLE`) in Vercel
-- [ ] Seed first `team_users` rows for each founder + ops staffer
-- [ ] Verify `has_permission()` works for each role (test query in SQL editor)
-- [ ] Wire **Sentry** (frontend + server) + **PostHog** (events)
-- [ ] Stand up **Inngest** project (free tier) — empty for now
-- [ ] Connect **Resend** + **Beem** + provision **360dialog** WhatsApp number
-- [ ] Ship `/dashboard/applications` + `/dashboard/sellers` live against Supabase
-- [ ] Build KYC upload flow (seller side) writing to `seller_documents`
-- [ ] Bring `/dashboard/kyc` from scaffold → live: queue + approve/reject actions
-- [ ] Inquiry tracking: `/api/inquiry` route that writes an `inquiries` row, then redirects to WhatsApp
+- [x] Apply `0001_init.sql` + `0002_control_plane.sql` to the Supabase project
+- [x] Set `NEXT_PUBLIC_SUPABASE_URL` + `NEXT_PUBLIC_SUPABASE_ANON_KEY` in Vercel
+- [ ] (Optional) `SUPABASE_SERVICE_ROLE` in Vercel (only needed when Inngest workers land)
+- [x] Seed first `team_users` rows for each founder + ops staffer
+- [x] Ship `/dashboard/applications` + `/dashboard/sellers` live against Supabase
+- [x] Build KYC upload flow on the seller detail page (ops-side) writing to `seller_documents`
+- [x] Bring `/dashboard/kyc` from scaffold → live: queue + approve/reject actions + auto tier-bump
+- [x] Inquiry tracking: `/api/inquiry` route writes an `inquiries` row, then redirects to WhatsApp
+- [ ] Wire **Sentry** (frontend + server) + **PostHog** (events) — Phase 3
+- [ ] Stand up **Inngest** project (free tier) — Phase 3
+- [ ] Connect **Resend** + **Beem** + provision **360dialog** WhatsApp number — Phase 3
 
-**Exit gate:** Ops team uses `/dashboard/applications` daily instead of WhatsApp groups. All schema in place even where UI is not.
+**Exit gate (met):** Ops team uses `/dashboard/applications` daily instead of WhatsApp groups. All schema in place even where UI is not.
 
 ### 11.4 Month 2 — Workflows live
 
 **Goal: every operational event has a system of record.**
 
-- [ ] `/dashboard/listings` — moderation queue powered by `listing_reviews`, with prohibited-keyword auto-flag
-- [ ] `/dashboard/inquiries` — list + 1-click "Mark responded"; nightly response-rate recompute
-- [ ] Inngest job: weekly **listing health sweep** (expire deals, flag inactive sellers)
-- [ ] Inngest job: weekly **ambassador-payout draft** (joins referrals, computes WHT, writes `payouts.status='scheduled'`)
-- [ ] `/dashboard/ambassadors` — leaderboard from `v_ambassador_leaderboard`
-- [ ] `/dashboard/broadcasts` — minimal v1: pick segment by plan + city, send WA template via 360dialog, log to `notifications`
-- [ ] **Chatwoot** deployed (Hetzner / Fly) — WhatsApp + IG + email unified inbox
-- [ ] **Metabase** connected to Supabase read replica — first 3 dashboards (revenue, seller funnel, inquiry conversion)
-- [ ] `/dashboard/disputes` v1 — even pre-checkout, log every complaint here
+- [x] `/dashboard/listings` — moderation queue powered by `listing_reviews`, with prohibited-keyword auto-flag (migration `0005`)
+- [x] `/dashboard/inquiries` — list + 1-click "Mark responded" / "Mark converted"
+- [x] `/dashboard/ambassadors` — leaderboard from `v_ambassador_leaderboard` + create form + copy-link
+- [x] `/r/[code]` — tracked ambassador redirect (logs clicks, sets 30-day attribution cookie)
+- [x] `/dashboard/broadcasts` — segment composer; queues to `notifications` (real delivery is Phase 3)
+- [x] `/dashboard/disputes` — list + threaded resolution with SLA-breach badge
+- [x] `/dashboard/team` — role management UI
+- [ ] **Chatwoot** deployed (Hetzner / Fly) — WhatsApp + IG + email unified inbox — Phase 3
+- [ ] **Metabase** connected to Supabase read replica — Phase 3
+- [ ] Inngest job: weekly **listing health sweep** — Phase 3
+- [ ] Inngest job: weekly **ambassador-payout draft** — Phase 3
 
-**Exit gate:** Friday review meeting runs entirely off the dashboard. Zero KPIs read from spreadsheets.
+**Exit gate (partially met — runs off the dashboard; only Chatwoot + Metabase missing):** Friday review meeting runs entirely off the dashboard.
 
 ### 11.5 Month 3 — Money & trust hardened
 
 **Goal: paid plans flow through the system end-to-end with audit trail.**
 
-- [ ] Pick aggregator (recommend **Selcom** primary, **Clickpesa** spike) — implement webhook → `payment_intents.status='succeeded'` → auto-write `revenue_events`
-- [ ] `/dashboard/payouts` — finance review queue, batch approve, mmo_ref capture on paid
-- [ ] `/dashboard/boosts` — calendar view + spotlight deliverables checklist
-- [ ] `/dashboard/compliance` — auto-scan listings for `prohibited_keywords`, surface in `compliance_flags`
-- [ ] PDPC data-subject-request intake (`/api/dsr`) → writes `data_subject_requests`
-- [ ] `/dashboard/audit` — searchable diff viewer over `audit_log`
+- [x] `/dashboard/payouts` — schedule (seller or amb with 5% WHT) → approve → mark paid with MMO + ref
+- [x] `/dashboard/revenue` — manual entry, VAT-threshold meter from `v_vat_tracker`
+- [x] `/dashboard/compliance` — auto-scanned `compliance_flags` from listings + PDPC DSR queue with start/fulfil/reject
+- [x] `/dashboard/audit` — searchable diff viewer over `audit_log` with filters
+- [ ] Pick aggregator (recommend **Selcom** primary, **Clickpesa** spike) — implement webhook → `payment_intents` → auto-write `revenue_events` — Phase 3
+- [ ] `/dashboard/boosts` — calendar view + spotlight deliverables checklist (still scaffold; lights up with checkout)
+- [ ] Public PDPC DSR intake form (`/legal/dsr` → `/api/dsr` → `data_subject_requests`)
 - [ ] First DSR fire-drill (handled in &lt; 30 days, evidenced in audit log)
-- [ ] VAT-threshold alert: PostHog notification when `v_vat_tracker.last_12m_tzs` &gt; 80% of TZS 200M
+- [ ] VAT-threshold alert: PostHog notification when `v_vat_tracker.last_12m_tzs` &gt; 80% of TZS 200M — Phase 3 (Inngest)
 
-**Exit gate:** A regulator request (PDPC or TRA) could be answered from the dashboard within an hour, with audit-log evidence.
+**Exit gate (met for queries / pending for live money flow):** A regulator request (PDPC or TRA) could be answered from the dashboard within an hour, with audit-log evidence. Real money flow waits for Phase 3 aggregator wiring.
+
+### 11.5b Bonus shipped (beyond original plan)
+
+- [x] **Public marketplace** at `/marketplace` + listing detail + seller storefront `/s/[id]` (migration `0006`, view `v_public_listings`)
+- [x] **Seller portal** at `/seller/*` — self-serve KYC, listings, inquiries, profile (migration `0007`, `is_seller_owner()` + RLS)
+- [x] **Auth middleware** gating `/dashboard/*` and `/seller/*` with redirects
+- [x] **Ops can fully exercise the system** without external dependencies — applications can be approved, listings created, KYC uploaded, payouts scheduled, broadcasts queued, all from the dashboard.
 
 ### 11.6 Routes scaffolded on day 1
 
@@ -390,21 +400,27 @@ The whole admin surface is laid out under `/dashboard/*` so engineers can fill i
 
 | Route | Status | Backing schema |
 |---|---|---|
-| `/dashboard`                | LIVE (mock KPIs)  | — |
-| `/dashboard/applications`   | LIVE (Supabase)   | `seller_applications` |
-| `/dashboard/sellers`        | LIVE (Supabase)   | `sellers`, `v_seller_health` |
-| `/dashboard/kyc`            | SCAFFOLD          | `seller_documents`, `verification_events` |
-| `/dashboard/listings`       | SCAFFOLD          | `listings`, `listing_reviews`, `listing_flags` |
-| `/dashboard/inquiries`      | SCAFFOLD          | `inquiries` |
-| `/dashboard/revenue`        | SCAFFOLD          | `revenue_events`, `v_vat_tracker` |
-| `/dashboard/payouts`        | SCAFFOLD          | `payouts`, `v_ambassador_leaderboard` |
-| `/dashboard/boosts`         | SCAFFOLD          | `boosts`, `spotlights`, `campaigns` |
-| `/dashboard/disputes`       | SCAFFOLD          | `disputes`, `dispute_messages` |
-| `/dashboard/compliance`     | SCAFFOLD          | `compliance_flags`, `data_subject_requests` |
-| `/dashboard/ambassadors`    | SCAFFOLD          | `ambassadors`, `ambassador_clicks`, `referrals` |
-| `/dashboard/broadcasts`     | SCAFFOLD          | `broadcasts`, `notification_templates`, `notifications` |
-| `/dashboard/audit`          | SCAFFOLD          | `audit_log` |
-| `/dashboard/experiments`    | SCAFFOLD          | flag provider (GrowthBook/PostHog) |
+| `/dashboard`                | LIVE              | counts + `v_attention_queue`; KPIs link to sections |
+| `/dashboard/applications`   | LIVE              | `seller_applications` + approve/reject + expand row |
+| `/dashboard/sellers`        | LIVE              | `sellers`, links to detail |
+| `/dashboard/sellers/[id]`   | LIVE              | `v_seller_health` + KYC uploader + listing creator |
+| `/dashboard/kyc`            | LIVE              | preview, approve/reject, tier auto-bump |
+| `/dashboard/listings`       | LIVE              | moderation queue + auto-flag |
+| `/dashboard/inquiries`      | LIVE              | filters + mark actions |
+| `/dashboard/revenue`        | LIVE              | manual entry + VAT meter |
+| `/dashboard/payouts`        | LIVE              | schedule + WHT + approve + mark paid |
+| `/dashboard/boosts`         | SCAFFOLD          | unlocks with checkout (Phase 3) |
+| `/dashboard/disputes` + `/[id]` | LIVE          | threaded resolution + SLA badge |
+| `/dashboard/compliance`     | LIVE              | flags + PDPC DSRs |
+| `/dashboard/ambassadors`    | LIVE              | leaderboard + create + copy /r/&lt;code&gt; |
+| `/dashboard/broadcasts`     | LIVE              | composer queues to `notifications` |
+| `/dashboard/team`           | LIVE              | role assignment + remove |
+| `/dashboard/audit`          | LIVE              | searchable diff viewer |
+| `/dashboard/experiments`    | SCAFFOLD          | needs PostHog/GrowthBook wiring |
+| `/seller/*`                 | LIVE              | self-serve overview, listings, kyc, inquiries, profile |
+| `/marketplace`, `/marketplace/[id]`, `/s/[id]` | LIVE | public marketplace + storefront |
+| `/api/inquiry`              | LIVE              | logs `inquiries` → 302 WhatsApp (Swahili prefill) |
+| `/r/[code]`                 | LIVE              | tracked redirect + attribution cookie |
 
 ### 11.7 Open backend decisions
 
