@@ -1,8 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "PowerShell(pandoc docs/v2/Pamoja_Plus_Payment_Structure_v2.docx -o $env:TEMP\\\\pay.md; pandoc docs/v2/Pamoja_Plus_Team_Structure_and_Management_v2.docx -o $env:TEMP\\\\team.md; Write-Output \"=== PAY ===\"; Get-Content $env:TEMP\\\\pay.md; Write-Output \"=== TEAM ===\"; Get-Content $env:TEMP\\\\team.md)",
-      "Bash(which python *)"
-    ]
-  }
-}
