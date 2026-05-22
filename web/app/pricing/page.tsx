@@ -51,8 +51,8 @@ export default function PricingPage() {
                 )}
                 <div className="text-sm font-bold text-ink-2 uppercase tracking-wide">{p.best}</div>
                 <div className="mt-1 font-display font-extrabold text-2xl">{p.name}</div>
-                <div className="mt-4 flex items-baseline gap-1 flex-wrap">
-                  <span className="font-display font-extrabold text-2xl lg:text-3xl leading-none break-words">{tzs(p.price)}</span>
+                <div className="mt-4 flex items-baseline gap-1 whitespace-nowrap">
+                  <span className="font-display font-extrabold text-xl lg:text-2xl leading-none">{tzs(p.price)}</span>
                   <span className="text-ink-2 text-xs">/{p.per}</span>
                 </div>
                 <div className="mt-1 text-sm text-ink-2">{p.listings} listing{p.listings === "1" ? "" : "s"}</div>
