@@ -26,11 +26,19 @@ const config: Config = {
       transitionTimingFunction: { brand: "cubic-bezier(0.22,1,0.36,1)" },
       keyframes: {
         shimmer: { "0%": { backgroundPosition: "-200% 0" }, "100%": { backgroundPosition: "200% 0" } },
-        spinSlow: { to: { transform: "rotate(360deg)" } }
+        spinSlow: { to: { transform: "rotate(360deg)" } },
+        floatA: { "0%,100%": { transform: "translate(0,0)" }, "50%": { transform: "translate(40px,-30px)" } },
+        floatB: { "0%,100%": { transform: "translate(0,0)" }, "50%": { transform: "translate(-30px,40px)" } },
+        marquee: { from: { transform: "translateX(0)" }, to: { transform: "translateX(-50%)" } },
+        gradientSweep: { "0%,100%": { backgroundPosition: "0% 50%" }, "50%": { backgroundPosition: "100% 50%" } }
       },
       animation: {
         shimmer: "shimmer 3s linear infinite",
-        spinSlow: "spinSlow 20s linear infinite"
+        spinSlow: "spinSlow 20s linear infinite",
+        floatA: "floatA 14s ease-in-out infinite",
+        floatB: "floatB 18s ease-in-out infinite",
+        marquee: "marquee 30s linear infinite",
+        gradientSweep: "gradientSweep 6s ease-in-out infinite"
       }
     }
   },
