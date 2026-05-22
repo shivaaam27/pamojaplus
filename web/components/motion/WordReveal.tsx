@@ -14,7 +14,8 @@ export function WordReveal({ text, className, accent }: { text: string; classNam
             key={i}
             className={"inline-block " + (isAccent ? "text-green" : "")}
             initial={{ opacity: 0, y: reduced ? 0 : 24, filter: reduced ? "none" : "blur(8px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            viewport={{ once: false, amount: 0.4 }}
             transition={{ duration: 0.6, delay: reduced ? 0 : i * 0.06, ease: [0.22, 1, 0.36, 1] }}
             style={{ marginRight: "0.25em" }}
           >

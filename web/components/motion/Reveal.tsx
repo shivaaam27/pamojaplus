@@ -17,7 +17,7 @@ export function Reveal({ children, delay = 0, className }: { children: ReactNode
       className={className}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, amount: 0.2 }}
+      viewport={{ once: false, amount: 0.2, margin: "0px 0px -10% 0px" }}
       transition={{ delay }}
       variants={baseVariants(reduced)}
     >
@@ -33,7 +33,7 @@ export function StaggerGroup({ children, className, stagger = 0.08 }: { children
       className={className}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, amount: 0.15 }}
+      viewport={{ once: false, amount: 0.15, margin: "0px 0px -10% 0px" }}
       variants={{
         hidden: {},
         show: { transition: { staggerChildren: reduced ? 0 : stagger, delayChildren: 0.05 } }
