@@ -38,11 +38,11 @@ export default function PricingPage() {
           <SectionHeading eyebrow="Pricing" title="Free to join. Easy to grow. Fair to monetize."
             sub="Built for the Tanzanian market. Mobile-money friendly. Commission only when value is created." />
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5 items-stretch">
             {plans.map((p, i) => (
               <motion.div key={p.id} initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }} transition={{ delay: i * 0.06 }}
-                className={cn("relative rounded-2xl p-6 border bg-white",
+                className={cn("relative rounded-2xl p-6 border bg-white flex flex-col h-full",
                   p.highlight ? "border-yellow shadow-lift" : "border-line shadow-card")}>
                 {p.highlight && (
                   <div className="absolute -top-3 left-6 inline-flex items-center gap-1 bg-yellow text-ink text-xs font-bold px-3 py-1 rounded-full">
@@ -56,7 +56,7 @@ export default function PricingPage() {
                   <span className="text-ink-2 text-sm">/{p.per}</span>
                 </div>
                 <div className="mt-1 text-sm text-ink-2">{p.listings} listing{p.listings === "1" ? "" : "s"}</div>
-                <ul className="mt-5 space-y-2 text-sm">
+                <ul className="mt-5 space-y-2 text-sm flex-1">
                   {p.features.map((f) => (
                     <li key={f} className="flex items-start gap-2">
                       <Check className="w-4 h-4 text-green mt-0.5 shrink-0" /> {f}
