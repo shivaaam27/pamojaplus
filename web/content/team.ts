@@ -16,16 +16,16 @@ export const departments = [
 ] as const;
 
 export const team: Member[] = [
-  { name: "TBD", role: "Managing Director", dept: "Leadership", initials: "MD",
-    bio: "Direction, partnerships, revenue, accountability." },
-  { name: "TBD", role: "Business Development Manager", dept: "Business Dev", initials: "BD",
-    bio: "Onboard businesses, convert to paid packages." },
-  { name: "TBD", role: "Operations Manager", dept: "Operations", initials: "OM",
-    bio: "Keep listings, deals, and inquiries organized." },
-  { name: "TBD", role: "Marketing & Community Manager", dept: "Marketing", initials: "MC",
-    bio: "Brand, content, ambassadors, campaigns." },
-  { name: "TBD", role: "Product & Technology Lead", dept: "Tech", initials: "PT",
-    bio: "Platform, UX, analytics, integrations." },
-  { name: "TBD", role: "Finance & Admin Officer", dept: "Finance", initials: "FA",
-    bio: "Payments, invoices, expenses, records." }
+  { name: "Pulin Malek", role: "Managing Director", dept: "Leadership", initials: "PM",
+    bio: "Direction, business model, partnerships, growth." },
+  { name: "Shivam Parmar", role: "Business Development & Operations Manager", dept: "Business Dev", initials: "SP",
+    bio: "Seller acquisition, partnerships, revenue. Also leads Technology & Product." },
+  { name: "Disha Tulsidas", role: "Marketplace Operations Manager", dept: "Operations", initials: "DT",
+    bio: "Listings, deals, customer flow, daily quality." },
+  { name: "Juned & Disha", role: "Marketing & Community Coordinator", dept: "Marketing", initials: "JD",
+    bio: "Brand, content, campaigns, ambassadors." },
+  { name: "Shivam Parmar", role: "Product / Technology Lead", dept: "Tech", initials: "SP",
+    bio: "Platform, UX, data, features." },
+  { name: "Hriday Solanki", role: "Finance & Admin Manager", dept: "Finance", initials: "HS",
+    bio: "Payments, records, contracts, compliance." }
 ];
