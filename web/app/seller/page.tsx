@@ -1,10 +1,11 @@
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import Link from "next/link";
 import { serverClient, supabaseConfigured, type DBSeller, type DBSellerHealth } from "@/lib/supabase";
 import { Card, Badge } from "@/components/ui/Card";
 import { SellerShell } from "@/components/layout/SellerShell";
 import { tzs } from "@/lib/format";
-import { ShoppingBag, MessageCircle, Star, ShieldCheck, AlertTriangle } from "lucide-react";
+import { ShoppingBag, MessageCircle, Star, ShieldCheck, AlertTriangle, ExternalLink } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -14,7 +15,7 @@ export default async function SellerOverviewPage() {
   }
   const sb = serverClient(cookies())!;
   const { data: { user } } = await sb.auth.getUser();
-  if (!user) return null;
+  if (!user) redirect("/seller/login");
 
   const { data: sellerRow } = await sb.from("sellers").select("*").eq("user_id", user.id).maybeSingle();
   const s = sellerRow as DBSeller | null;
@@ -57,10 +58,18 @@ export default async function SellerOverviewPage() {
 
   return (
     <SellerShell businessName={s.business_name}>
-      <div className="mb-6">
-        <div className="text-xs font-bold uppercase tracking-widest text-green">Seller portal</div>
-        <h1 className="font-display font-extrabold text-2xl sm:text-3xl mt-1">Hi, {s.owner_name ?? s.business_name}</h1>
-        <p className="text-ink-2 text-sm mt-1">Here&apos;s your store at a glance.</p>
+      <div className="mb-6 flex items-end justify-between gap-3 flex-wrap">
+        <div>
+          <div className="text-xs font-bold uppercase tracking-widest text-green">Seller portal</div>
+          <h1 className="font-display font-extrabold text-2xl sm:text-3xl mt-1">Hi, {s.owner_name ?? s.business_name}</h1>
+          <p className="text-ink-2 text-sm mt-1">Here&apos;s your store at a glance.</p>
+        </div>
+        {s.verified && (
+          <Link href={`/s/${s.id}`} target="_blank" rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-line hover:border-green hover:text-green-dark text-sm font-bold transition">
+            <ExternalLink className="w-4 h-4" /> View my storefront
+          </Link>
+        )}
       </div>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">

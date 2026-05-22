@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { getMySeller } from "../../_lib/getSeller";
 import { createOwnListing } from "./actions";
 import { ArrowLeft } from "lucide-react";
+import { CATEGORIES } from "@/lib/catalog";
 
 export const dynamic = "force-dynamic";
 
@@ -35,6 +36,15 @@ export default async function NewListingPage() {
               <textarea name="description" rows={5} placeholder="Materials, sizes, what makes it special…"
                 className="mt-1 w-full px-3 py-2 rounded-xl border border-line bg-white focus:outline-none focus:ring-2 focus:ring-green" />
               <span className="text-xs text-ink-2">Avoid medical claims (TMDA flags those automatically).</span>
+            </label>
+            <label className="block">
+              <span className="text-sm font-semibold">Category</span>
+              <select name="category" defaultValue={seller.category ?? ""}
+                className="mt-1 w-full px-3 py-2 rounded-xl border border-line bg-white focus:outline-none focus:ring-2 focus:ring-green">
+                <option value="">— Use my profile category —</option>
+                {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
+              </select>
+              <span className="text-xs text-ink-2">Defaults to your profile category. Override per item if needed.</span>
             </label>
             <label className="block">
               <span className="text-sm font-semibold">Price (TZS)</span>

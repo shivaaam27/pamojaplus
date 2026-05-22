@@ -103,6 +103,7 @@ export interface DBListing {
   seller_id: string;
   title: string;
   description: string | null;
+  category: string | null;
   price_tzs: number | null;
   photos: string[];
   deal_type: string;

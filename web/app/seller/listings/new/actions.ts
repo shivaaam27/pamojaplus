@@ -16,6 +16,7 @@ export async function createOwnListing(formData: FormData) {
 
   const title       = String(formData.get("title") ?? "").trim();
   const description = String(formData.get("description") ?? "").trim() || null;
+  const category    = String(formData.get("category") ?? "").trim() || null;
   const priceRaw    = String(formData.get("price_tzs") ?? "");
   const price       = priceRaw ? parseInt(priceRaw, 10) : null;
   if (!title) return { ok: false, error: "Title required" };
@@ -24,6 +25,7 @@ export async function createOwnListing(formData: FormData) {
     seller_id: seller.id,
     title,
     description,
+    category,
     price_tzs: price,
     status: "draft"
   });

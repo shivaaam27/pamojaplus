@@ -37,7 +37,7 @@ export default async function EditListingPage({ params }: { params: { id: string
           <Badge tone={STATUS_TONE[l.status] ?? "ink"}>{l.status}</Badge>
         </div>
         <Card>
-          <EditForm init={{ id: l.id, title: l.title, description: l.description, price_tzs: l.price_tzs }} />
+          <EditForm init={{ id: l.id, title: l.title, description: l.description, price_tzs: l.price_tzs, category: l.category }} />
         </Card>
       </div>
     </SellerShell>

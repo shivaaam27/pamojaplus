@@ -4,8 +4,9 @@ import { useRouter } from "next/navigation";
 import { Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { updateOwnListing, deleteOwnListing } from "./actions";
+import { CATEGORIES } from "@/lib/catalog";
 
-interface Init { id: string; title: string; description: string | null; price_tzs: number | null; }
+interface Init { id: string; title: string; description: string | null; price_tzs: number | null; category: string | null; }
 
 export function EditForm({ init }: { init: Init }) {
   const router = useRouter();
@@ -42,6 +43,14 @@ export function EditForm({ init }: { init: Init }) {
         <span className="text-sm font-semibold">Description</span>
         <textarea name="description" rows={5} defaultValue={init.description ?? ""}
           className="mt-1 w-full px-3 py-2 rounded-xl border border-line bg-white focus:outline-none focus:ring-2 focus:ring-green" />
+      </label>
+      <label className="block">
+        <span className="text-sm font-semibold">Category</span>
+        <select name="category" defaultValue={init.category ?? ""}
+          className="mt-1 w-full px-3 py-2 rounded-xl border border-line bg-white focus:outline-none focus:ring-2 focus:ring-green">
+          <option value="">— Use my profile category —</option>
+          {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
+        </select>
       </label>
       <label className="block">
         <span className="text-sm font-semibold">Price (TZS)</span>
