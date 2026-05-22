@@ -63,6 +63,9 @@ function LoginForm() {
               {pending ? "Signing in…" : "Sign in"}
             </Button>
           </form>
+          <p className="text-sm text-ink-2 mt-4">
+            <a href="/forgot-password" className="font-bold text-green-dark hover:underline">Forgot password?</a>
+          </p>
           <p className="text-xs text-ink-2 mt-6">
             Need access? Ask a founder to invite you in Supabase → Authentication → Users, then add a matching row in <code>team_users</code>.
           </p>

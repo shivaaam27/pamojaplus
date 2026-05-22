@@ -22,15 +22,31 @@ export default async function SellerOverviewPage() {
   if (!s) {
     return (
       <SellerShell>
-        <Card className="max-w-xl">
-          <h1 className="font-display font-extrabold text-2xl mb-2">Welcome to Pamoja+</h1>
-          <p className="text-ink-2 mb-4">
-            We can&apos;t find a seller profile linked to <strong>{user.email}</strong>. If you applied with a different email, please contact ops.
-          </p>
-          <p className="text-sm text-ink-2">
-            If you haven&apos;t applied yet, <Link href="/sellers/apply" className="font-bold text-green-dark hover:underline">submit your pitch</Link> and we&apos;ll review it.
-          </p>
-        </Card>
+        <div className="max-w-2xl">
+          <Card className="text-center">
+            <div className="w-14 h-14 rounded-2xl bg-green-soft text-green-dark mx-auto flex items-center justify-center mb-4">
+              <ShoppingBag className="w-7 h-7" />
+            </div>
+            <h1 className="font-display font-extrabold text-2xl">Almost there</h1>
+            <p className="text-ink-2 mt-2 max-w-md mx-auto">
+              No seller profile is linked to <strong>{user.email}</strong> yet.
+            </p>
+            <div className="mt-6 grid sm:grid-cols-2 gap-3 max-w-md mx-auto">
+              <Link href="/sellers/apply"
+                className="block p-4 rounded-xl border border-line hover:border-green hover:bg-green-soft/40 transition text-left">
+                <div className="font-bold">Apply to join</div>
+                <div className="text-xs text-ink-2 mt-1">Haven&apos;t pitched yet? Submit your business in 2 minutes.</div>
+              </Link>
+              <a href="https://wa.me/255700000000?text=Hi%2C+I+signed+up+but+can%27t+find+my+seller+profile"
+                target="_blank" rel="noopener noreferrer"
+                className="block p-4 rounded-xl border border-line hover:border-green hover:bg-green-soft/40 transition text-left">
+                <div className="font-bold">Talk to ops</div>
+                <div className="text-xs text-ink-2 mt-1">Already applied with a different email? Message us.</div>
+              </a>
+            </div>
+            <p className="text-xs text-ink-2 mt-6">Tip: sign up with the same email you used in your application — the link is automatic.</p>
+          </Card>
+        </div>
       </SellerShell>
     );
   }

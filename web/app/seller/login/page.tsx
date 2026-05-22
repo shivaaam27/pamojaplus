@@ -52,7 +52,10 @@ function Form() {
             {msg && <div className="text-sm text-danger">{msg}</div>}
             <Button type="submit" disabled={pending} className="w-full">{pending ? "Signing in…" : "Sign in"}</Button>
           </form>
-          <p className="text-sm text-ink-2 mt-6">
+          <p className="text-sm text-ink-2 mt-4">
+            <Link href="/forgot-password" className="font-bold text-green-dark hover:underline">Forgot password?</Link>
+          </p>
+          <p className="text-sm text-ink-2 mt-4">
             No account? <Link href="/seller/signup" className="font-bold text-green-dark hover:underline">Create one</Link>
             {" · "}
             Want to apply first? <Link href="/sellers/apply" className="font-bold text-green-dark hover:underline">Apply to join</Link>

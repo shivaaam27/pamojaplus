@@ -58,7 +58,9 @@ export default async function SellerListingsPage() {
             <tbody className="divide-y divide-line">
               {ls.map((l) => (
                 <tr key={l.id} className="hover:bg-bg/60">
-                  <td className="p-3 font-semibold">{l.title}</td>
+                  <td className="p-3 font-semibold">
+                    <Link href={`/seller/listings/${l.id}`} className="hover:text-green-dark">{l.title}</Link>
+                  </td>
                   <td className="p-3">{l.price_tzs != null ? tzs(l.price_tzs) : "—"}</td>
                   <td className="p-3"><Badge tone={STATUS_TONE[l.status] ?? "ink"}>{l.status}</Badge></td>
                   <td className="p-3 text-ink-2 text-xs">{new Date(l.updated_at).toLocaleDateString("en-GB")}</td>

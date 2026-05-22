@@ -41,10 +41,11 @@ export default async function DisputesPage({ searchParams }: { searchParams: { f
         title="Disputes"
         description="Open conflicts on orders. SLA: 24h first reply, 72h decision."
         right={
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
             <a href="?f=open"   className={f === "open"   ? "" : "opacity-60"}><Badge tone="yellow">open</Badge></a>
             <a href="?f=closed" className={f === "closed" ? "" : "opacity-60"}><Badge>closed</Badge></a>
             <a href="?f=all"    className={f === "all"    ? "" : "opacity-60"}><Badge tone="ink">all</Badge></a>
+            <Link href="/dashboard/disputes/new" className="ml-2 px-3 py-1.5 rounded-full bg-green text-white text-xs font-bold">+ Open dispute</Link>
           </div>
         }
       />

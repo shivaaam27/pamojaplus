@@ -1,6 +1,5 @@
 import { cookies } from "next/headers";
 import { Container, Section, SectionHeading } from "@/components/ui/Container";
-import { Badge } from "@/components/ui/Card";
 import { milestones as fallbackMilestones } from "@/content/milestones";
 import { serverClient, supabaseConfigured, type DBMilestone } from "@/lib/supabase";
 import { AchievementsGrid } from "./AchievementsGrid";
@@ -31,15 +30,12 @@ async function loadMilestones() {
 }
 
 export default async function AchievementsPage() {
-  const { rows, live } = await loadMilestones();
+  const { rows } = await loadMilestones();
   return (
     <Section>
       <Container>
-        <div className="flex items-center justify-between gap-4 flex-wrap mb-2">
-          <SectionHeading eyebrow="Milestones" title="What we&apos;ve built so far."
-            sub="A growing wall of wins. Updated as the team ships." />
-          <Badge tone={live ? "green" : "yellow"}>{live ? "LIVE FROM SUPABASE" : "STATIC FALLBACK"}</Badge>
-        </div>
+        <SectionHeading eyebrow="Milestones" title="What we&apos;ve built so far."
+          sub="A growing wall of wins. Updated as the team ships." />
         <AchievementsGrid milestones={rows} />
       </Container>
     </Section>

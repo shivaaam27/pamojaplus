@@ -5,9 +5,10 @@ import { useState } from "react";
 import {
   LayoutDashboard, Users, ClipboardList, ShieldCheck, ListChecks, MessageCircle,
   Megaphone, Coins, Banknote, AlertTriangle, FileWarning, Send, ScrollText, FlaskConical,
-  Menu, X, Star
+  Menu, X, Star, LogOut
 } from "lucide-react";
 import { cn } from "@/lib/cn";
+import { browserClient } from "@/lib/supabase";
 
 type Item = { href: string; label: string; icon: React.ComponentType<{ className?: string }>; perm?: string };
 type Group = { title: string; items: Item[] };
@@ -65,6 +66,12 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
+  async function signOut() {
+    const sb = browserClient();
+    if (sb) await sb.auth.signOut();
+    window.location.href = "/login";
+  }
+
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-bg flex">
       {/* Sidebar */}
@@ -102,6 +109,12 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
               </ul>
             </div>
           ))}
+          <div className="pt-4 mt-4 border-t border-line">
+            <button onClick={signOut}
+              className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-semibold text-ink-2 hover:text-danger hover:bg-bg transition">
+              <LogOut className="w-4 h-4 shrink-0" /> Sign out
+            </button>
+          </div>
         </nav>
       </aside>
 
